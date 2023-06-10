@@ -210,6 +210,12 @@ private:
   static constexpr uint32_t scale = 4;
 };
 
+void play(cilo72::ic::DfPlayerPro & dfPlayerPro)
+{  
+  dfPlayerPro.setPlayMode(cilo72::ic::DfPlayerPro::PlayMode::PLAY_RANDOMLY);
+  dfPlayerPro.next();
+}
+
 int main()
  {
   stdio_init_all();
@@ -254,8 +260,6 @@ int main()
   menu.add(new MenuItem("Zeit", &stateMenuTime));
   menu.add(new MenuItem("Volumen", &stateMenuVolumen));
   menu.add(new MenuItem("Exit", &stateIdle));
-
-  dfPlayerPro.setPlayMode(cilo72::ic::DfPlayerPro::PlayMode::PLAY_RANDOMLY);
   
   cilo72::core::OnChange<bool> onChangeAlarm(alarmOn, [&](const bool &last, const bool & value)
   {
@@ -286,7 +290,7 @@ int main()
       alarmRedBrightnesIndex  = brightnessMapLength;
       elapsedTimerAlarmBlink.start();
       elapsedTimerAlarmOff.start();
-      dfPlayerPro.play();
+      play(dfPlayerPro);
     }
 
     lastIsAlarm = isAlarm;
@@ -549,7 +553,7 @@ int main()
     oledLeft.clear();
     oledLeft.drawString(40, 1, 8, "-");
     oledLeft.update();
-    dfPlayerPro.play();
+    play(dfPlayerPro);
 
     oledRight.clear();
     oledRight.drawString(1, 1, 8, "+");
