@@ -28,41 +28,20 @@ add_compile_options(-Wall
         -Wno-maybe-uninitialized
         )
 
+add_subdirectory(rp2040_lib)
+
 add_executable(${PROJECT_NAME}
         main.cpp
         statemachine.cpp
         menu.cpp
         menuitem.cpp
-        lib/cilo72/hw/pio.cpp
-        lib/cilo72/hw/blink_forever.cpp
-        lib/cilo72/hw/repeating_timer.cpp
-        lib/cilo72/hw/i2c_bus.cpp
-        lib/cilo72/hw/spi_bus.cpp
-        lib/cilo72/hw/spi_device.cpp
-        lib/cilo72/hw/uart.cpp
-        lib/cilo72/hw/gpiokey.cpp
-        lib/cilo72/ic/ws2812.cpp
-        lib/cilo72/ic/ky_040.cpp
-        lib/cilo72/ic/ssd1306.cpp
-        lib/cilo72/ic/tmc5160.cpp
-        lib/cilo72/ic/bh1750fvi.cpp
-        lib/cilo72/ic/sd2405.cpp
-        lib/cilo72/ic/df_player_pro.cpp
-        lib/cilo72/motion/tmc5160.cpp
-        lib/cilo72/fonts/font_8x5.cpp
-        lib/cilo72/fonts/font_acme.cpp
-        lib/cilo72/fonts/font_bmspa.cpp
-        lib/cilo72/fonts/font_bubblesstandard.cpp
-        lib/cilo72/fonts/font_crackers.cpp
         )
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
 pico_enable_stdio_uart(${PROJECT_NAME} 0)
 
-pico_generate_pio_header(${PROJECT_NAME} ${PICO_EXAMPLES_PATH}/pio/pio_blink/blink.pio)
-pico_generate_pio_header(${PROJECT_NAME} ${PICO_EXAMPLES_PATH}/pio/ws2812/ws2812.pio)
-
-target_include_directories(${PROJECT_NAME} PUBLIC lib)
+target_include_directories(${PROJECT_NAME} PUBLIC rp2040_lib/src)
+target_link_libraries(${PROJECT_NAME} PUBLIC rp2040_lib)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib hardware_pio)
 target_link_libraries(${PROJECT_NAME} PRIVATE pico_stdlib hardware_i2c)
